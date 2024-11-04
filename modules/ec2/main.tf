@@ -7,29 +7,23 @@ resource "aws_security_group" "sg" {
     to_port   = 22
     protocol  = "TCP"
     cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-}
-
-ingress {
-  from_port        = var.app_port
-  to_port          = var.app_port
-  protocol         = "TCP"
-  cidr_blocks      = ["0.0.0.0/0"]
-  ipv6_cidr_blocks = ["::/0"]
-}
-}
-
-
-
-egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
   }
 
+  ingress {
+    from_port = var.app_port
+    to_port   = var.app_port
+    protocol  = "TCP"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
 
 
 
@@ -37,7 +31,7 @@ egress {
 resource "aws_instance" "instance" {
   ami           = "data.aws_ami.ami.id"
   instance_type = "var.instance_type"
-  vpc_security_group_ids = ["sg-0925e3ad9a29b3b88"]
+  vpc_security_group_ids = ["aws_seurity_group.sg.id"]
   tags = {
     name = "${var.component_name}-${var.env}"
   }
