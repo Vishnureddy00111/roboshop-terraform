@@ -1,6 +1,5 @@
 env = "dev"
 instances = {
-
   fronted = {
     app_port      = 80
     instance_type = "t3.small"
